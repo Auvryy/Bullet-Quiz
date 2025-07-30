@@ -1,0 +1,62 @@
+* {
+  font-family: Poppins, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f2fd;
+}
+
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.closeElement {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#tutorial-background {
+  display: none; /*make this block later*/
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  overflow-y: scroll;
+  transition: all 0.15s;
+}
+
+#tutorial-background::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+#tutorial-background::-webkit-scrollbar {
+  width: 10px; /* Vertical scrollbar width */
+  height: 10px; /* Horizontal scrollbar height */
+}
+
+#tutorial-background::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Color of the thumb */
+  border-radius: 10px;
+  border: 2px solid transparent; /* Padding around thumb */
+  background-clip: content-box;
+}
+
+#tutorial-close {
+  color: #f82a1b;
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  text-decoration: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+#main-container {
+  margin-top: 6rem;
+}
+
