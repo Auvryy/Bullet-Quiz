@@ -35,7 +35,7 @@ console.log(quizAPI)
 //url format: https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=multiple
 /*
 generalknowledge: category=9
-politics: category=24
+animals: category=27
 computers: category=18
 anime: category=31
 
@@ -43,3 +43,15 @@ amount: amount=10
 difficulty: difficulty=easy
 type=multiple
 */
+let data;
+const setQuestion = async () => {
+  try {
+    const res = await fetch(quizAPI)
+    data = await res.json();
+    console.log(data.results[0].question);
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
