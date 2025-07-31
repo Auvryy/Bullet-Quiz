@@ -76,3 +76,10 @@ p {
   border-radius: 3px;
   cursor: pointer;
 }
+
+#high-score {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: ;
+}

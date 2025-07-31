@@ -1,7 +1,11 @@
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById('high-score').innerText = `High Score: ${highScore}`;
+});
+
 //below are the tutorial code
 const closeTutorial = document.getElementById("tutorial-close");
 const tutorialBackground = document.getElementById("tutorial-background");
-const questionMain = document.getElementById("question-section");
+const questionMain = document.getElementById("question-form");
 
 closeTutorial.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -19,6 +23,7 @@ const amount = document.getElementById("amount");
 
 let data; //for the json
 let quizAPI; //for the url
+let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
 
 const submitButton = document.getElementById("submit-form");
 
@@ -40,7 +45,7 @@ submitButton.addEventListener("click", (e) => {
     setTimeout(() => {
       form.style.display = "none";
     }, 500);
-
+    form.classList.remove('closeElement')
     setQuestion();
   } else {
     amount.style.borderColor = "red";
@@ -168,4 +173,41 @@ const getQuestion = () => {
     console.log(`Question ${i + 1}: Random number is ${randomNumber}`);
     questionMain.appendChild(questionContainer);
   }
+  const submitButton = document.createElement("button");
+  submitButton.classList.add("btn", "btn-primary", "align-self-center", "mb-5");
+  submitButton.id = "submit-quiz";
+  submitButton.innerText = "Submit";
+  questionMain.appendChild(submitButton);
+
+  submitButton.addEventListener("click", function (e) {
+    e.preventDefault()
+    let score = 0;
+
+    for (let i = 0; i < data.results.length; i++) {
+      const selectedOption = document.querySelector(
+        `input[name="question${i}"]:checked`
+      );
+      if (selectedOption) {
+        const userAnswer = selectedOption.value;
+        const correctAnswer = data.results[i].correct_answer;
+
+        if (userAnswer === correctAnswer) {
+          score += 1;
+        }
+      }
+    }
+    alert(`You scored ${score} out of ${data.results.length}`);
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('highScore', highScore);
+      document.getElementById('high-score').innerText = `High Score: ${highScore}`
+    }
+    deleteQuestion()
+  });
 };
+
+const deleteQuestion = () => {
+  questionMain.innerHTML = '';
+  const form = document.getElementById('form-container')
+  form.style.display = 'block';
+}
