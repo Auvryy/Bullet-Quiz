@@ -105,13 +105,18 @@
       </div>
     </div>
 
-    <main id="main-container" class="container col-md-7 col-sm-9 col-11"> <!--starting interface-->
+    <main id="main-container" class="container col-md-7 col-sm-9 col-11">
+      <!--starting interface-->
 
       <form id="form-container" class="w-100">
         <h1 class="text-center">Bullet Quiz</h1>
-        <p class="text-center text-wrap">Answer the quizzes in less than a Minute!</p>
-        <section class="container d-flex flex-column align-items-start gap-2 mt-2">
-          <label for="category" class="text-start w-100 ">Category</label>
+        <p class="text-center text-wrap">
+          Answer the quizzes in less than a Minute!
+        </p>
+        <section
+          class="container d-flex flex-column align-items-start gap-2 mt-2"
+        >
+          <label for="category" class="text-start w-100">Category</label>
           <select id="category" class="form-control w-100">
             <option value="9" selected>General Knowledge</option>
             <option value="27">Animals</option>
@@ -129,23 +134,52 @@
             </div>
             <div class="w-100">
               <label for="amount">Amount</label>
-              <input id="amount" class="form-control " type="number" value="10" max="10" min="1">
+              <input
+                id="amount"
+                class="form-control"
+                type="number"
+                value="10"
+                max="10"
+                min="1"
+              />
             </div>
           </div>
-          <button id="submit-form" class="align-self-center text-center btn btn-success px-5 py-1 mt-2 fs-5 w-100" type="button
-          ">Start</button>
+          <button
+            id="submit-form"
+            class="align-self-center text-center btn btn-success px-5 py-1 mt-2 fs-5 w-100"
+            type="button
+          "
+          >
+            Start
+          </button>
         </section>
       </form>
 
-      <form id="question-form" class="w-100 d-flex flex-column gap-1"> <!--the question section-->
-       
+      <form id="question-form" class="w-100 d-flex flex-column gap-1">
+        <!--the question section-->
       </form>
-
-      
     </main>
-    <nav id="high-score" class="bg-secondary p-2 text-light" > <!--high score container-->
+    <nav id="high-score" class="bg-secondary p-2 text-light">
+      <!--high score container-->
       High Score: 0
     </nav>
+
+    <div
+      id="submission-status"
+      class="w-50 bg-secondary p-3 text-center rounded text-light d-none"
+    >
+      Are you sure you want to submit the form?
+      <div class="d-flex justify-content-center gap-3 w-100 my-3">
+        <button
+          class="btn btn-danger"
+          type="button
+        "
+        >
+          Cancel
+        </button>
+        <button class="btn btn-primary" type="button">Submit</button>
+      </div>
+    </div>
 
     <script src="script.js"></script>
     <script
