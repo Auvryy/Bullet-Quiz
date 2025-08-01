@@ -8,6 +8,8 @@ let timerInterval; // Global timer reference
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("high-score").innerText = `High Score: ${highScore}`;
+  const tutorial = document.getElementById('tutorial-background')
+  tutorial.style.display = 'block'
 });
 
 // Tutorial logic
@@ -35,7 +37,6 @@ submitButton.addEventListener("click", (e) => {
   if (userAmount <= 30 && userAmount >= 1) {
     const userCategory = category.value;
     const userDifficulty = difficulty.value;
-    console.log(userAmount, userDifficulty, userCategory);
     quizAPI = `https://opentdb.com/api.php?amount=${userAmount}&category=${userCategory}&difficulty=${userDifficulty}&type=multiple`;
 
     const form = document.getElementById("form-container");
@@ -47,6 +48,7 @@ submitButton.addEventListener("click", (e) => {
     setQuestion();
   } else {
     amount.style.borderColor = "red";
+    alert("Please enter an amount between 1 and 30.");
   }
 });
 
@@ -55,10 +57,9 @@ const setQuestion = async () => {
   try {
     const res = await fetch(quizAPI);
     data = await res.json();
-    console.log(quizAPI);
     getQuestion();
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 };
 
@@ -85,8 +86,7 @@ const getQuestion = () => {
         ${choices}
       </div>
       <hr>
-    `;
-    console.log(`Question ${i + 1}: Random number is ${randomNumber + 1}`);
+    `
     questionMain.appendChild(questionContainer);
   });
 
@@ -97,7 +97,6 @@ const getQuestion = () => {
   questionMain.appendChild(submitButton);
 
   // Handle manual submit
-
   submitButton.addEventListener("click", function (e) {
     e.preventDefault();
     submissionVerify();
@@ -123,8 +122,6 @@ const submitQuiz = () => {
       score += 1;
     }
   });
-
-  // alert(`You scored ${score} out of ${data.results.length}`);
 
   if (score > highScore) {
     highScore = score;
@@ -179,6 +176,16 @@ const modal = document.getElementById("modal-background");
 const cancel = document.getElementById("cancelQuiz");
 const submit = document.getElementById("submitQuiz");
 
+cancel.addEventListener("click", (e) => {
+  e.stopPropagation();
+  modal.style.display = "none";
+});
+
+submit.addEventListener("click", (e) => {
+  e.stopPropagation();
+  submitQuiz();
+});
+
 const submissionVerify = () => {
   modal.style.display = "block";
 
@@ -187,15 +194,5 @@ const submissionVerify = () => {
     if (e.target === modal) {
       modal.style.display = "none";
     }
-  });
-
-  cancel.addEventListener("click", (e) => {
-    e.stopPropagation();
-    modal.style.display = "none";
-  });
-
-  submit.addEventListener("click", (e) => {
-    e.stopPropagation();
-    submitQuiz();
   });
 };
