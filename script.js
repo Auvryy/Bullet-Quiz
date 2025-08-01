@@ -97,9 +97,10 @@ const getQuestion = () => {
   questionMain.appendChild(submitButton);
 
   // Handle manual submit
+
   submitButton.addEventListener("click", function (e) {
     e.preventDefault();
-    submissionVerify()
+    submissionVerify();
   });
 
   // Start timer and auto-submit on time out
@@ -108,7 +109,7 @@ const getQuestion = () => {
 
 // Submission logic
 const submitQuiz = () => {
-  modal.style.display = 'none'
+  modal.style.display = "none";
   clearInterval(timerInterval); // Stop timer
   document.getElementById("timer-container").style.display = "none"; // Hide timer
 
@@ -132,7 +133,18 @@ const submitQuiz = () => {
       "high-score"
     ).innerText = `High Score: ${highScore}`;
   }
-
+  const scoreModal = document.getElementById("score-modal");
+  const scoreContainer = document.querySelector("#score-modal section");
+  scoreContainer.innerHTML = `
+        <h1 class="fs-2">Quiz ended!</h1>
+        <p class="fs-5">You scored ${score} out of ${amount.value}</p>
+        <p class="mt-2 fs-6">High Score: ${highScore}</p>
+        <button class="btn btn-primary mt-3">Continue</button>
+  `;
+  scoreModal.style.display = "block";
+  scoreModal.addEventListener("click", () => {
+    scoreModal.style.display = "none";
+  });
   deleteQuestion();
 };
 
@@ -163,29 +175,27 @@ const startTimer = (onComplete) => {
 };
 
 //submit status
-const modal = document.getElementById('modal-background');
-const cancel = document.getElementById('cancelQuiz')
-const submit = document.getElementById('submitQuiz')
+const modal = document.getElementById("modal-background");
+const cancel = document.getElementById("cancelQuiz");
+const submit = document.getElementById("submitQuiz");
 
 const submissionVerify = () => {
- 
+  modal.style.display = "block";
 
-  modal.style.display = 'block';
-
-  modal.addEventListener('click', (e) => {
-    e.stopPropagation()
+  modal.addEventListener("click", (e) => {
+    e.stopPropagation();
     if (e.target === modal) {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     }
-  })
+  });
 
-  cancel.addEventListener('click', (e) => {
-    e.stopPropagation()
-    modal.style.display = 'none'
-  })
+  cancel.addEventListener("click", (e) => {
+    e.stopPropagation();
+    modal.style.display = "none";
+  });
 
-  submit.addEventListener('click', (e) => {
-    e.stopPropagation()
+  submit.addEventListener("click", (e) => {
+    e.stopPropagation();
     submitQuiz();
-  })
-}
+  });
+};
