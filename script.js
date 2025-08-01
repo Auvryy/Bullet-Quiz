@@ -1,8 +1,16 @@
+let data;
+let quizAPI;
+let highScore = localStorage.getItem("highScore")
+  ? parseInt(localStorage.getItem("highScore"))
+  : 0;
+
+let timerInterval; // Global timer reference
+
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById('high-score').innerText = `High Score: ${highScore}`;
+  document.getElementById("high-score").innerText = `High Score: ${highScore}`;
 });
 
-//below are the tutorial code
+// Tutorial logic
 const closeTutorial = document.getElementById("tutorial-close");
 const tutorialBackground = document.getElementById("tutorial-background");
 const questionMain = document.getElementById("question-form");
@@ -10,18 +18,14 @@ const questionMain = document.getElementById("question-form");
 closeTutorial.addEventListener("click", async (e) => {
   e.preventDefault();
   tutorialBackground.classList.add("closeElement");
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   tutorialBackground.style.display = "none";
 });
 
-//below are the form code
+// Form elements
 const category = document.getElementById("category");
 const difficulty = document.getElementById("difficulty");
 const amount = document.getElementById("amount");
-
-let data;
-let quizAPI;
-let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
 
 const submitButton = document.getElementById("submit-form");
 
@@ -38,7 +42,7 @@ submitButton.addEventListener("click", (e) => {
     form.classList.add("closeElement");
     setTimeout(() => {
       form.style.display = "none";
-      form.classList.remove('closeElement');
+      form.classList.remove("closeElement");
     }, 500);
     setQuestion();
   } else {
@@ -46,18 +50,7 @@ submitButton.addEventListener("click", (e) => {
   }
 });
 
-//url format: https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=multiple
-/*
-generalknowledge: category=9
-animals: category=27
-computers: category=18
-anime: category=31
-
-amount: amount=10
-difficulty: difficulty=easy
-type=multiple
-*/
-
+// Fetch and Display Questions
 const setQuestion = async () => {
   try {
     const res = await fetch(quizAPI);
@@ -75,9 +68,12 @@ const getQuestion = () => {
     const answers = [...item.incorrect_answers];
     answers.splice(randomNumber, 0, item.correct_answer);
 
-    const choices = answers.map(answer => 
-      `<label><input type="radio" name="question${i}" value="${answer}">${answer}</label>`
-    ).join('');
+    const choices = answers
+      .map(
+        (answer) =>
+          `<label><input type="radio" name="question${i}" value="${answer}">${answer}</label>`
+      )
+      .join("");
 
     const questionContainer = document.createElement("section");
     questionContainer.innerHTML = `
@@ -100,28 +96,96 @@ const getQuestion = () => {
   submitButton.innerText = "Submit";
   questionMain.appendChild(submitButton);
 
+  // Handle manual submit
   submitButton.addEventListener("click", function (e) {
     e.preventDefault();
-    let score = 0;
-
-    data.results.forEach((item, i) => {
-      const selectedOption = document.querySelector(`input[name="question${i}"]:checked`);
-      if (selectedOption && selectedOption.value === item.correct_answer) {
-        score += 1;
-      }
-    });
-
-    alert(`You scored ${score} out of ${data.results.length}`);
-    if (score > highScore) {
-      highScore = score;
-      localStorage.setItem('highScore', highScore);
-      document.getElementById('high-score').innerText = `High Score: ${highScore}`;
-    }
-    deleteQuestion();
+    submissionVerify()
   });
+
+  // Start timer and auto-submit on time out
+  startTimer(submitQuiz);
+};
+
+// Submission logic
+const submitQuiz = () => {
+  modal.style.display = 'none'
+  clearInterval(timerInterval); // Stop timer
+  document.getElementById("timer-container").style.display = "none"; // Hide timer
+
+  let score = 0;
+
+  data.results.forEach((item, i) => {
+    const selectedOption = document.querySelector(
+      `input[name="question${i}"]:checked`
+    );
+    if (selectedOption && selectedOption.value === item.correct_answer) {
+      score += 1;
+    }
+  });
+
+  // alert(`You scored ${score} out of ${data.results.length}`);
+
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScore", highScore);
+    document.getElementById(
+      "high-score"
+    ).innerText = `High Score: ${highScore}`;
+  }
+
+  deleteQuestion();
 };
 
 const deleteQuestion = () => {
-  questionMain.innerHTML = '';
-  document.getElementById('form-container').style.display = 'block';
+  questionMain.innerHTML = "";
+  document.getElementById("form-container").style.display = "block";
 };
+
+// Timer logic with onComplete callback
+const startTimer = (onComplete) => {
+  const timerContainer = document.getElementById("timer-container");
+  let time = 30;
+  timerContainer.style.display = "flex";
+  timerContainer.innerHTML = time;
+
+  timerInterval = setInterval(() => {
+    time--;
+    if (time >= 0) {
+      timerContainer.innerHTML = time;
+      console.log(time);
+    } else {
+      clearInterval(timerInterval);
+      timerContainer.style.display = "none"; // Hide when timer is done
+      console.log("done");
+      if (typeof onComplete === "function") onComplete();
+    }
+  }, 1000);
+};
+
+//submit status
+const modal = document.getElementById('modal-background');
+const cancel = document.getElementById('cancelQuiz')
+const submit = document.getElementById('submitQuiz')
+
+const submissionVerify = () => {
+ 
+
+  modal.style.display = 'block';
+
+  modal.addEventListener('click', (e) => {
+    e.stopPropagation()
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  })
+
+  cancel.addEventListener('click', (e) => {
+    e.stopPropagation()
+    modal.style.display = 'none'
+  })
+
+  submit.addEventListener('click', (e) => {
+    e.stopPropagation()
+    submitQuiz();
+  })
+}

@@ -157,27 +157,33 @@
         <!--the question section-->
       </form>
     </main>
+
     <nav id="high-score" class="bg-secondary p-2 text-light">
       <!--high score container-->
       High Score: 0
     </nav>
 
-    <div
-      id="submission-status"
-      class="w-50 bg-secondary p-3 text-center rounded text-light d-none"
-    >
-      Are you sure you want to submit the form?
-      <div class="d-flex justify-content-center gap-3 w-100 my-3">
-        <button
-          class="btn btn-danger"
-          type="button
-        "
-        >
-          Cancel
-        </button>
-        <button class="btn btn-primary" type="button">Submit</button>
+    <!--submission quiz modal-->
+    <div id="modal-background">
+      <div
+        id="submission-status"
+        class="p-3 text-center rounded text-light"
+      >
+        Are you sure you want to submit the form?
+        <div id="cancelQuiz" class="d-flex justify-content-center gap-3 w-100 my-3">
+          <button
+            class="btn btn-danger"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button id="submitQuiz" class="btn btn-primary" type="button">Submit</button>
+        </div>
       </div>
     </div>
+
+    <!--timer modal-->
+    <div id="timer-container"></div>
 
     <script src="script.js"></script>
     <script
