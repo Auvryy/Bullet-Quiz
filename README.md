@@ -3,7 +3,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/Auvryy/Bullet-Quiz)](https://github.com/Auvryy/Bullet-Quiz/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Auvryy/Bullet-Quiz)](https://github.com/Auvryy/Bullet-Quiz/network)
 [![GitHub issues](https://img.shields.io/github/issues/Auvryy/Bullet-Quiz)](https://github.com/Auvryy/Bullet-Quiz/issues)
-[![GitHub license](https://img.shields.io/github/license/Auvryy/Bullet-Quiz)](https://github.com/Auvryy/Bullet-Quiz/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Auvryy/Bullet-Quiz)](https://github.com/Auvryy/Bullet-Quiz/LICENSE)
 
 ## 🎯 Overview
 
